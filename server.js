@@ -116,6 +116,10 @@ app.post("/tweet",authToken,(req,res)=>{
 app.delete("/tweet",authToken,(req,res)=>{
     jwt.verify(req.token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
         if(err)return res.sendStatus(403)
+        con.query('DELETE FROM likes WHERE tweet_id = ?',[req.body.id],function(error,result){
+            if (error) throw (error)
+            console.log("deleted form other table")
+        })
         con.query('DELETE FROM tweets WHERE id = ?',[req.body.id],function(error,result){
             if(error) throw (error)
             console.log("Deleted!")
